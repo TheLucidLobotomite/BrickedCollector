@@ -1,5 +1,6 @@
-package com.example.legoapp.screens
+package com.cs407.brickcollector.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,23 +31,10 @@ fun BuyScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 24.dp),
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Buy", modifier = Modifier.weight(1f))
-
-            IconButton(onClick = onNavigateToSettings) {
-                Icon(
-                    imageVector = Icons.Default.Settings,
-                    contentDescription = "Settings"
-                )
-            }
-        }
-
-        Box(modifier = Modifier.fillMaxSize()) {
-            // TODO: Add search functionality
-            // TODO: Add location/distance filtering
-            // TODO: Add condition filtering
-            // TODO: Add sets list with details
+            Text("Buy")
         }
     }
 }

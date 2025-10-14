@@ -1,5 +1,6 @@
-package com.example.legoapp.screens
+package com.cs407.brickcollector.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,26 +31,10 @@ fun SettingsScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 24.dp),
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = onBack) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back"
-                )
-            }
-
-            Text("Settings", modifier = Modifier.weight(1f))
-        }
-
-        Box(modifier = Modifier.fillMaxSize()) {
-            // TODO: Add username field
-            // TODO: Add bio field
-            // TODO: Add favorites
-            // TODO: Add location settings
-            // TODO: Add permissions
-            // TODO: Add change password
-            // TODO: Add logout button
+            Text("Settings")
         }
     }
 }

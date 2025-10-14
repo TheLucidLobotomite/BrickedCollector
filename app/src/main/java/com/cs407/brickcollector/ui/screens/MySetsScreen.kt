@@ -1,5 +1,6 @@
-package com.example.legoapp.screens
+package com.cs407.brickcollector.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SellScreen(
+fun MySetsScreen(
     onNavigateToSettings: () -> Unit = {}
 ) {
     Column(
@@ -30,22 +31,10 @@ fun SellScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 24.dp),
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Sell", modifier = Modifier.weight(1f))
-
-            IconButton(onClick = onNavigateToSettings) {
-                Icon(
-                    imageVector = Icons.Default.Settings,
-                    contentDescription = "Settings"
-                )
-            }
-        }
-
-        Box(modifier = Modifier.fillMaxSize()) {
-            // TODO: Add posted sets list
-            // TODO: Add "Post" button to create new listing
-            // TODO: Display set details (name, condition, price, etc.)
+            Text("My Sets")
         }
     }
 }
