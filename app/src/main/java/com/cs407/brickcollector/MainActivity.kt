@@ -72,7 +72,9 @@ fun AppNavigation() {
                         }
                     }
                 )
-            } else {
+            }
+            /*
+            else {
                 TopAppBar(
                     title = { },
                     navigationIcon = {
@@ -82,6 +84,7 @@ fun AppNavigation() {
                     }
                 )
             }
+            */
         },
         bottomBar = {
             if (showBars) {

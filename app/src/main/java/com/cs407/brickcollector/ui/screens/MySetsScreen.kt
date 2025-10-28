@@ -50,13 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.cs407.brickcollector.R
-
-// Data class to represent a set with name, ID, and price
-data class LegoSet(
-    val name: String,
-    val imageId: Int,
-    val price: Double
-)
+import com.cs407.brickcollector.models.LegoSet
 
 @Composable
 fun MySetsScreen(
@@ -69,6 +63,11 @@ fun MySetsScreen(
             LegoSet("Space Station", 2, 89.99),
             LegoSet("City Builder", 3, 129.99),
             LegoSet("Pirate Ship", 4, 159.99),
+            LegoSet("Fire Station", 1, 39.99),
+            LegoSet("Castle Set", 1, 49.99),
+            LegoSet("Space Station", 2, 89.99),
+            LegoSet("City Builder", 3, 129.99),
+            LegoSet("Pirate Ship", 4, 159.99),
             LegoSet("Fire Station", 1, 39.99)
         )
     }
@@ -77,6 +76,10 @@ fun MySetsScreen(
     var activeSearchQuery by remember { mutableStateOf("") }
     var showFilterWidget by remember { mutableStateOf(false) }
     var selectedSet by remember { mutableStateOf<LegoSet?>(null) }
+
+    // Pagination variables
+    val itemsPerPage = 7
+    var currentPage by remember { mutableStateOf(1) }
 
     // Filter state variables
     var priceMin by remember { mutableStateOf("") }
@@ -96,6 +99,27 @@ fun MySetsScreen(
             itemList
         } else {
             itemList.filter { it.name.contains(activeSearchQuery, ignoreCase = true) }
+        }
+    }
+
+    // Calculate pagination values
+    val totalPages = remember(filteredList, itemsPerPage) {
+        ((filteredList.size + itemsPerPage - 1) / itemsPerPage).coerceAtLeast(1)
+    }
+
+    // Reset to page 1 if current page exceeds total pages
+    if (currentPage > totalPages) {
+        currentPage = 1
+    }
+
+    // Get items for current page
+    val paginatedList = remember(filteredList, currentPage, itemsPerPage) {
+        val startIndex = (currentPage - 1) * itemsPerPage
+        val endIndex = (startIndex + itemsPerPage).coerceAtMost(filteredList.size)
+        if (startIndex < filteredList.size) {
+            filteredList.subList(startIndex, endIndex)
+        } else {
+            emptyList()
         }
     }
 
@@ -353,7 +377,7 @@ fun MySetsScreen(
                 }
             }
 
-            items(filteredList) { set ->
+            items(paginatedList) { set ->
                 ElevatedCard(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -392,11 +416,62 @@ fun MySetsScreen(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
-                                text = "$${set.price}",
+                                text = "${set.price}",
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.primary
                             )
                         }
+                    }
+                }
+            }
+
+            // Pagination Controls - scrollable at the bottom
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 24.dp, bottom = 16.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    // Back arrow
+                    IconButton(
+                        onClick = { currentPage-- },
+                        enabled = currentPage > 1
+                    ) {
+                        Icon(
+                            painter = painterResource(id = android.R.drawable.ic_media_previous),
+                            contentDescription = "Previous Page",
+                            tint = if (currentPage > 1)
+                                MaterialTheme.colorScheme.primary
+                            else
+                                MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(16.dp))
+
+                    // Page indicator
+                    Text(
+                        text = "Page $currentPage/$totalPages",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+
+                    Spacer(modifier = Modifier.width(16.dp))
+
+                    // Forward arrow
+                    IconButton(
+                        onClick = { currentPage++ },
+                        enabled = currentPage < totalPages
+                    ) {
+                        Icon(
+                            painter = painterResource(id = android.R.drawable.ic_media_next),
+                            contentDescription = "Next Page",
+                            tint = if (currentPage < totalPages)
+                                MaterialTheme.colorScheme.primary
+                            else
+                                MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+                        )
                     }
                 }
             }
